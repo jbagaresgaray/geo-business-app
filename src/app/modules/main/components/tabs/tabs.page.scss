@@ -1,0 +1,34 @@
+@import '../../../../../theme/variables.scss';
+
+app-tabs {
+  ion-tab-bar {
+    height: 55px;
+
+    // &::before {
+    //   left: 0;
+    //   top: -5px;
+    //   background-position: left 0 top -2px;
+    //   position: absolute;
+    //   width: 100%;
+    //   height: 5px;
+    //   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAHBAMAAADzDtBxAAAAD1BMVEUAAAAAAAAAAAAAAAAAAABPDueNAAAABXRSTlMUCS0gBIh/TXEAAAAaSURBVAjXYxCEAgY4UIICBmMogMsgFLtAAQCNSwXZKOdPxgAAAABJRU5ErkJggg==);
+    //   background-repeat: repeat-x;
+    //   content: '';
+    // }
+
+    ion-tab-button {
+      --color: var(--color-placeholder);
+      --color-selected: var(--color-mirabile);
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  ion-tabs {
+    ion-footer ion-toolbar:last-child {
+      padding-bottom: 0;
+    }
+  }
+}

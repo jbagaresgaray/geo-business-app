@@ -1,0 +1,47 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button #tab1 tab="tab-food" color="mirabile">
+      <ion-icon
+        *ngIf="!tab1.selected"
+        src="./assets/svg/icon-food.svg"
+      ></ion-icon>
+      <ion-icon
+        *ngIf="tab1.selected"
+        src="./assets/svg/icon-food-active.svg"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button #tab2 tab="tab-cart" color="mirabile">
+      <ion-icon
+        *ngIf="!tab2.selected"
+        src="./assets/svg/icon-cart.svg"
+      ></ion-icon>
+      <ion-icon
+        *ngIf="tab2.selected"
+        src="./assets/svg/icon-cart-active.svg"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button #tab3 tab="tab-notification" color="mirabile">
+      <ion-icon
+        *ngIf="!tab3.selected"
+        src="./assets/svg/icon-notification.svg"
+      ></ion-icon>
+      <ion-icon
+        *ngIf="tab3.selected"
+        src="./assets/svg/icon-notification-active.svg"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button #tab4 tab="tab-profile" color="mirabile">
+      <ion-icon
+        *ngIf="!tab4.selected"
+        src="./assets/svg/icon-profile.svg"
+      ></ion-icon>
+      <ion-icon
+        *ngIf="tab4.selected"
+        src="./assets/svg/icon-profile-active.svg"
+      ></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

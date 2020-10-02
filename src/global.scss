@@ -9,18 +9,495 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
-/* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
 
-/* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import './theme/shared.scss';
+@import './theme/variables.scss';
 
-/* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+.no-scroll {
+  --overflow: hidden;
+}
+
+.app-padding {
+  --padding-start: 30px;
+  --padding-end: 30px;
+}
+
+.app-button {
+  font-family: $font-family-base;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0px;
+  --border-radius: 6px;
+
+  height: 48px;
+
+  &.button-outline {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &.button-clear {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &.app-button-small {
+    height: 38px;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &.app-button-xsmall {
+    font-size: 11px;
+    line-height: 13px;
+    height: 28px;
+  }
+}
+
+.app-title {
+  font-family: $font-family-base;
+  font-weight: $font-weight-base;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0;
+  text-align: center;
+  color: $color-standard;
+}
+
+.app-header-clear-button-text {
+  font-family: $font-family-base !important;
+  font-weight: $font-weight-base !important;
+  font-size: 14px !important;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.app-modal-title {
+  font-family: $font-family-base;
+  font-weight: $font-weight-medium;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: left;
+  color: $color-standard;
+}
+
+.app-heading-text {
+  font-family: $font-family-base;
+  font-weight: $font-weight-medium;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0;
+  text-align: left;
+  color: $color-standard;
+}
+
+.app-note-text {
+  font-family: $font-family-base;
+  font-weight: $font-weight-base;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0;
+  text-align: left;
+  color: $color-standard-note;
+  margin-top: 15px;
+}
+
+.app-link {
+  font-family: $font-family-base;
+  font-weight: $font-weight-medium;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0;
+  text-align: left;
+  color: $color-mirabile;
+}
+
+ion-back-button {
+  color: $color-standard-note;
+  font-size: 12px;
+}
+
+.no-input-padding {
+  --padding-start: 0px;
+}
+
+.mat-error {
+  margin-top: 0.66666667em;
+  top: calc(100% - 1.79166667em);
+  font-size: 0.75em;
+  font-weight: 400;
+  line-height: 1.125;
+  display: block;
+  color: $color-cancelled !important;
+
+  &:last-child {
+    margin-bottom: 0.66666667em;
+  }
+}
+
+.basic-form {
+  .no-input-padding {
+    --padding-start: 0px;
+  }
+
+  .control-invalid {
+    color: $color-cancelled !important;
+  }
+
+  .item-label {
+    .label-floating {
+      font-family: $font-family-base;
+      font-weight: $font-weight-base;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0;
+      color: $color-placeholder;
+    }
+  }
+
+  .item-has-focus {
+    .label-floating {
+      font-family: $font-family-base;
+      font-weight: $font-weight-base;
+      font-size: 12px;
+      line-height: 14px;
+      letter-spacing: 0;
+      color: $color-standard;
+    }
+  }
+
+  .icon-password-view {
+    color: $color-placeholder-object;
+    font-size: 18px !important;
+  }
+
+  ion-input {
+    font-family: $font-family-base;
+    font-weight: $font-weight-base;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0;
+    color: $color-placeholder-object;
+
+    &[type='password'] {
+      font-weight: $font-weight-bold !important;
+    }
+  }
+}
+
+.main-content {
+  --background: var(--color-content);
+}
+
+.main-content2 {
+  --background: var(--color-content2);
+}
+
+.modal-topmidscreen {
+  .modal-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    width: 100%;
+    height: 80%;
+  }
+}
+
+.modal-fullscreen {
+  .modal-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    ion-header {
+      ion-toolbar {
+        & :first-of-type {
+          padding-top: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.modal-order-status {
+  .modal-wrapper {
+    display: block;
+    width: 100%;
+    margin: 0px 15px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+  }
+}
+
+.modal-order-status-large {
+  .modal-wrapper {
+    display: block;
+    width: 100%;
+    margin: 0px 15px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+  }
+}
+
+.modal-login-status {
+  .modal-wrapper {
+    display: block;
+    width: 100%;
+    margin: 0px 15px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+  }
+}
+
+.order-cancel-select-alert {
+  .alert-wrapper {
+    width: 80%;
+    max-width: 100%;
+
+    .alert-head {
+      .alert-title {
+        font-family: $font-family-base;
+        font-weight: $font-weight-medium;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0px;
+        color: $color-standard;
+      }
+    }
+
+    .alert-radio-group {
+      .alert-radio-button {
+        &[aria-checked='true'] {
+          .alert-radio-label {
+            color: #bb271f;
+          }
+        }
+
+        .alert-radio-label {
+          font-family: $font-family-base;
+          font-weight: $font-weight-base;
+          font-size: 13px;
+          line-height: 15px;
+          letter-spacing: 0px;
+          color: $color-standard;
+          white-space: pre-wrap;
+        }
+
+        .alert-radio-icon {
+          .alert-radio-inner {
+            border-color: #bb271f;
+          }
+        }
+      }
+    }
+
+    .alert-button-group {
+      .alert-button {
+        height: 53px;
+
+        .alert-button-inner {
+          font-family: $font-family-base;
+          font-weight: $font-weight-bold;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0px;
+          color: #bb271f;
+        }
+      }
+    }
+  }
+}
+
+.profile-actionsheet {
+  .action-sheet-wrapper {
+    .action-sheet-container {
+      .action-sheet-group {
+        border-radius: 6px;
+
+        .action-sheet-button {
+          .action-sheet-button-inner {
+            font-family: $font-family-base;
+            font-weight: $font-weight-medium;
+            font-size: 14px;
+            line-height: 18px;
+            letter-spacing: 0;
+            color: $color-standard;
+          }
+        }
+      }
+    }
+  }
+}
+
+.profile-toast {
+  --width: 155px;
+  --height: 155px;
+  --background: var(--color-black);
+  --border-radius: 6px;
+  --color: var(--color-white);
+
+  font-family: $font-family-base;
+  font-weight: $font-weight-base;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: center;
+
+  ::part {
+    .toast-wrapper {
+      .toast-container {
+        .toast-content {
+          .toast-message {
+            ion-icon {
+              font-size: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.toast-notif-success {
+  transform: translateY(0%) !important;
+  text-align: center;
+  --background: var(--ion-color-ts-green);
+  --border-radius: 0px !important;
+  --color: var(--ion-color-ts-green-contrast);
+  --width: 100% !important;
+  --border-color: var(--ion-color-ts-green-shade);
+  --max-width: 100%;
+  --start: 0px;
+  --end: 0px;
+  top: -10px;
+  height: 76px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.toast-notif-error {
+  transform: translateY(0%) !important;
+  text-align: center;
+  --background: var(--ion-color-ts-red);
+  --border-radius: 0px !important;
+  --color: var(--ion-color-ts-red-contrast);
+  --width: 100% !important;
+  --border-color: var(--ion-color-ts-red-shade);
+  --max-width: 100%;
+  --start: 0px;
+  --end: 0px;
+  top: -10px;
+  height: 76px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.toast-notif-warning {
+  transform: translateY(0%) !important;
+  text-align: center;
+  --background: var(--ion-color-ts-amber);
+  --border-radius: 0px !important;
+  --color: var(--ion-color-ts-amber-contrast);
+  --width: 100% !important;
+  --border-color: var(--ion-color-ts-amber-shade);
+  --max-width: 100%;
+  --start: 0px;
+  --end: 0px;
+  top: -10px;
+  height: 76px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.toast-notif-info {
+  transform: translateY(0%) !important;
+  text-align: center;
+  --background: var(--ion-color-ts-blue);
+  --border-radius: 0px !important;
+  --color: var(--ion-color-ts-blue-contrast);
+  --width: 100% !important;
+  --border-color: var(--ion-color-ts-blue-shade);
+  --max-width: 100%;
+  --start: 0px;
+  --end: 0px;
+  top: -10px;
+  height: 76px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* iPhone 5  */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .modal-order-status {
+    .modal-wrapper {
+      height: 80%;
+    }
+  }
+}
+
+/* iPhone 6, 7, & 8  */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+  .modal-order-status {
+    .modal-wrapper {
+      height: 70%;
+    }
+  }
+}
+
+/* iPhone 6, 7, & 8 Plus */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) {
+  .modal-order-status {
+    .modal-wrapper {
+      height: 70%;
+    }
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .modal-order-status {
+    .modal-wrapper {
+      height: 60%;
+    }
+  }
+
+  .modal-order-status-large {
+    .modal-wrapper {
+      height: 70%;
+    }
+  }
+
+  .modal-login-status {
+    .modal-wrapper {
+      height: 45%;
+    }
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .modal-order-status {
+    .modal-wrapper {
+      height: 60%;
+    }
+  }
+
+  .modal-order-status-large {
+    .modal-wrapper {
+      height: 70%;
+    }
+  }
+
+  .modal-login-status {
+    .modal-wrapper {
+      height: 45%;
+    }
+  }
+}

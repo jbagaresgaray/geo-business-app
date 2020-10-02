@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrl: 'https://mirabile-api-dev.azurewebsites.net',
 };
