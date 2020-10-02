@@ -5,6 +5,7 @@ import cloneDeep from 'lodash-es/cloneDeep';
 import isEmpty from 'lodash-es/isEmpty';
 import filter from 'lodash-es/filter';
 import each from 'lodash-es/each';
+import { ModalController } from '@ionic/angular';
 
 import { STORE_USER_LOCATION } from './../../../../shared/constants/utils';
 
@@ -12,6 +13,8 @@ import { LocalStorageService } from './../../../../services/local-storage.servic
 import { DataLoaderService } from './../../../../services/data-loader.service';
 import { MainState } from '../../stores/main.reducer';
 import { businessSelector } from './../../stores/main.selector';
+
+import { SearchLocationComponent } from './../../../../shared/components/search-location/search-location.component';
 
 @Component({
   selector: 'app-tab1',
@@ -37,6 +40,7 @@ export class Tab1Page {
   constructor(
     private zone: NgZone,
     private store: Store<MainState>,
+    private modalController: ModalController,
     private localStorageService: LocalStorageService,
     private dataLoader: DataLoaderService
   ) {
@@ -110,15 +114,15 @@ export class Tab1Page {
   }
 
   async setLocationManually() {
-    // const modal = await this.modalController.create({
-    //   component: SearchLocationComponent,
-    //   cssClass: 'modal-topmidscreen',
-    //   id: 'search-location-modal',
-    // });
-    // modal.onDidDismiss().then(() => {
-    //   this.initAddress();
-    // });
-    // return modal.present();
+    const modal = await this.modalController.create({
+      component: SearchLocationComponent,
+      cssClass: 'modal-topmidscreen',
+      id: 'search-location-modal',
+    });
+    modal.onDidDismiss().then(() => {
+      this.initAddress();
+    });
+    return modal.present();
   }
 
   private initAddress() {
