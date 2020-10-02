@@ -1,0 +1,101 @@
+@import '../../../../theme/variables.scss';
+
+app-menu-item {
+  ion-card {
+    margin: 10px 16px !important;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 1px 4px #00000019;
+    border-radius: 6px;
+
+    ion-item {
+      --padding-start: 10px;
+
+      ion-thumbnail {
+        width: 70px;
+        height: 70px;
+
+        img {
+          box-shadow: 0px 1px 4px #00000019;
+          border-radius: 6px;
+        }
+      }
+
+      ngx-avatar {
+        width: 70px;
+        height: 70px;
+        box-shadow: 0px 1px 4px #00000019;
+        border-radius: 6px;
+      }
+
+      .menu-title {
+        text-align: left;
+        font-family: $font-family-base;
+        font-weight: $font-weight-medium;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0px;
+        color: $color-standard;
+      }
+
+      .menu-star-rating {
+        text-align: left;
+        font-family: $font-family-base;
+        font-weight: $font-weight-base;
+        font-size: 11px;
+        line-height: 13px;
+        letter-spacing: 0px;
+        color: $color-standard-note;
+      }
+
+      app-star-rating {
+        margin-left: 4px;
+      }
+
+      .menu-store-status-view {
+        margin-top: 10px !important;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 6px;
+      }
+
+      .menu-store-status {
+        text-align: left;
+        font-family: $font-family-base;
+        font-weight: $font-weight-base;
+        font-size: 11px;
+        line-height: 13px;
+        letter-spacing: 0px;
+        color: #69c97a;
+      }
+
+      .menu-divider {
+        width: 1px;
+        height: 11px;
+        background: #9398a6 0% 0% no-repeat padding-box;
+        margin: 0 8px;
+      }
+
+      .menu-type {
+        text-align: left;
+        font-family: $font-family-base;
+        font-weight: $font-weight-base;
+        font-size: 11px;
+        line-height: 13px;
+        letter-spacing: 0px;
+        color: $color-standard-note;
+      }
+
+      .menu-star-rating-view {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 6px;
+      }
+    }
+  }
+}

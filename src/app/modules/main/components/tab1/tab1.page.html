@@ -1,17 +1,102 @@
-<ion-header [translucent]="true">
+<ion-header mode="md" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-button fill="clear" slot="start" (click)="setLocationManually()">
+      <ion-icon
+        slot="icon-only"
+        class="marker-icon"
+        src="./assets/svg/icon-marker.svg"
+      ></ion-icon>
+      <div class="address-title">
+        <span *ngIf="hasAddress">{{currentAddress.title | truncate:[30]}}</span>
+        <span *ngIf="!hasAddress">Allow location services</span>
+      </div>
+    </ion-button>
+  </ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-searchbar
+      class="search-placeholder"
+      debounce="500"
+      placeholder="Search food, restaurant name, cuisine…"
+      (ionInput)="onSearchInput($event)"
+    ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="mirabile">
+        <ion-icon
+          class="filter-icon"
+          slot="icon-only"
+          src="./assets/svg/icon-sorting-options.svg"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="main-content2">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="search-result-label" *ngIf="onSearching">
+    {{filteredMenusArr.length}}
+    <span *ngIf="filteredMenusArr.length < 2">Result</span>
+    <span *ngIf="filteredMenusArr.length > 1">Results</span>
+  </div>
+  <ng-container *ngIf="!showBusinessError">
+    <ng-container *ngIf="showBusinesses">
+      <ng-container *ngIf="filteredMenusArr && filteredMenusArr.length < 1">
+        <app-no-business></app-no-business>
+      </ng-container>
+      <ng-container *ngIf="filteredMenusArr && filteredMenusArr.length > 0">
+        <ng-container *ngFor="let item of filteredMenusArr">
+          <app-menu-item
+            [menuImage]="item.imageUrl"
+            [menuTitle]="item.name"
+            [menuType]="item.type"
+            [menuCategory]="item.category"
+          ></app-menu-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!showBusinesses">
+      <ng-container *ngFor="let item of fakeArr">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text
+              animated
+              style="width: 70px; height: 70px"
+            ></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h3>
+              <ion-skeleton-text
+                animated
+                style="width: 50%"
+              ></ion-skeleton-text>
+            </h3>
+            <p>
+              <ion-skeleton-text
+                animated
+                style="width: 80%"
+              ></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text
+                animated
+                style="width: 60%"
+              ></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="showBusinessError">
+    <app-info-error-card
+      [title]="errorTitle"
+      [message]="businessError.message"
+    ></app-info-error-card>
+  </ng-container>
+  <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="dots">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
 </ion-content>

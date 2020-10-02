@@ -1,0 +1,47 @@
+@import '../../../../../../theme/variables.scss';
+
+app-no-business {
+  .notification-view {
+    box-shadow: none;
+    --background: transparent;
+    height: 70%;
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .custom-card-view {
+      // display: flex;
+      // flex: 1;
+      // flex-direction: row;
+      // justify-content: center;
+      // align-items: center;
+    }
+
+    .custom-card-status {
+      text-align: center;
+      font-family: $font-family-base;
+      font-weight: $font-weight-medium;
+      font-size: 14px;
+      line-height: 26px;
+      letter-spacing: 0px;
+      color: $color-standard;
+
+      margin-top: 40px;
+    }
+
+    .custom-card-status-note {
+      text-align: center;
+      font-family: $font-family-base;
+      font-weight: $font-weight-base;
+      font-size: 11px;
+      line-height: 13px;
+      letter-spacing: 0px;
+      color: $color-standard;
+
+      margin-top: 10px;
+    }
+  }
+}

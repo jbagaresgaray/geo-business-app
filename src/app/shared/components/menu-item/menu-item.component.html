@@ -1,0 +1,31 @@
+<ion-card>
+  <ion-item lines="none">
+    <ion-thumbnail slot="start">
+      <ng-container *ngIf="hasAvatar">
+        <img
+          [src]="menuImage"
+          onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=='"
+        />
+      </ng-container>
+      <ng-container *ngIf="!hasAvatar">
+        <ngx-avatar
+          [name]="menuTitle"
+          [round]="false"
+          [size]="70"
+          [cornerRadius]="6"
+        ></ngx-avatar>
+      </ng-container>
+    </ion-thumbnail>
+    <ion-label>
+      <h2 class="menu-title">{{ menuTitle }}</h2>
+      <div class="menu-store-status-view">
+        <span class="menu-type">{{ menuType }}</span>
+        <span class="menu-divider"></span>
+        <span class="menu-store-status">{{ menuCategory | uppercase }}</span>
+      </div>
+      <!-- <app-location-address-text
+        [location]="menuStoreLocation"
+      ></app-location-address-text> -->
+    </ion-label>
+  </ion-item>
+</ion-card>
