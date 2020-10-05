@@ -60,6 +60,8 @@ export class PlaceSearchService {
         lng: parseFloat(lng),
       };
       geocoder.geocode({ location: latlng }, (results, status) => {
+        console.log('results: ', results);
+        console.log('status: ', status);
         if (status === 'OK') {
           if (results && results[0]) {
             resolve({

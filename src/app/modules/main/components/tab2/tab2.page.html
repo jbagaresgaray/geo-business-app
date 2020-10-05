@@ -1,17 +1,23 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <google-map
+    [options]="mapOptions"
+    [center]="mapCenter"
+    [height]="'100%'"
+    [width]="'100%'"
+  >
+    <map-circle
+      [center]="mapCenter"
+      [radius]="mapRadius"
+      [options]="mapCircleOptions"
+    ></map-circle>
+    <ng-container *ngIf="mapMarker">
+      <map-marker [position]="mapMarker.position" [options]="mapMarker.options">
+      </map-marker>
+    </ng-container>
+  </google-map>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="mirabile" (click)="getCurrentPosition()">
+      <ion-icon name="locate-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

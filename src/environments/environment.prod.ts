@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://mirabile-api-dev.azurewebsites.net',
+  baseUrl: 'https://geo-business-api.herokuapp.com/api/v1',
 };

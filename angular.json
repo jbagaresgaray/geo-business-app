@@ -36,9 +36,6 @@
                 "input": "src/theme/variables.scss"
               },
               {
-                "input": "./node_modules/roboto-fontface/css/roboto/sass/roboto-fontface.scss"
-              },
-              {
                 "input": "src/global.scss"
               }
             ],
