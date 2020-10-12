@@ -16,6 +16,14 @@ import cloneDeep from 'lodash-es/cloneDeep';
 import each from 'lodash-es/each';
 import { MapMarker } from '@angular/google-maps';
 
+import { LocalStorageService } from './../../../../services/local-storage.service';
+import { DataLoaderService } from './../../../../services/data-loader.service';
+
+import {
+  STORE_USER_LOCATION,
+  STORE_RADIUS_SEARCH,
+} from './../../../../shared/constants/utils';
+
 @Component({
   selector: 'app-tab2',
   encapsulation: ViewEncapsulation.None,
@@ -60,6 +68,7 @@ export class Tab2Page {
   mapCenter: google.maps.LatLngLiteral;
   mapMarker: any;
   mapRadius = 500;
+  radius = 5;
   markerOptions: google.maps.MarkerOptions = {
     animation: google.maps.Animation.DROP,
     icon: './assets/icon/store.png',
@@ -77,111 +86,76 @@ export class Tab2Page {
   constructor(
     private zone: NgZone,
     private platform: Platform,
-    private store: Store<MainState>
+    private store: Store<MainState>,
+    private dataLoader: DataLoaderService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ionViewDidEnter() {
-    this.platform.ready().then(() => {
-      this.checkGeo();
-      this.initExploreBusiness();
-    });
+    this.initAddress();
   }
 
   ionViewWillLeave() {
-    this.clearWatch();
-
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  async getCurrentPosition() {
-    const coordinates = await Plugins.Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-    });
-    console.log('getCurrentPosition: ', coordinates);
-
-    if (coordinates) {
-      this.zone.run(() => {
-        this.currentCoords = coordinates.coords;
-        this.mapCenter = {
-          lat: coordinates.coords.latitude,
-          lng: coordinates.coords.longitude,
-        };
-
-        this.mapMarker = {
-          position: this.mapCenter,
-          options: {
-            animation: google.maps.Animation.BOUNCE,
-            icon: './assets/icon/marker.png',
-            draggable: false,
-          },
-        };
-      });
-    }
   }
 
   openInfoWindow(marker: MapMarker) {
     console.log('openInfoWindow: ', marker);
   }
 
-  async requestGeoPermissions() {
-    setTimeout(() => {
-      this.getCurrentPosition();
-      this.watchPosition();
-    }, 300);
-  }
+  private initAddress(event?: any) {
+    const radius = this.localStorageService.getItem(STORE_RADIUS_SEARCH);
+    const address = this.localStorageService.getItem(STORE_USER_LOCATION);
+    if (address) {
+      const coords = address.location;
+      console.log('coords: ', coords);
 
-  private watchPosition() {
-    try {
-      this.watchId = Plugins.Geolocation.watchPosition(
-        {
-          enableHighAccuracy: true,
+      this.radius = radius;
+      this.currentCoords = coords;
+      this.mapCenter = {
+        lat: coords.lat,
+        lng: coords.lng,
+      };
+
+      this.mapMarker = {
+        position: this.mapCenter,
+        options: {
+          animation: google.maps.Animation.BOUNCE,
+          icon: './assets/icon/marker.png',
+          draggable: false,
         },
-        (position, err) => {
-          if (position) {
-            console.log('watchPosition: ', position);
-            this.zone.run(() => {
-              this.watchCoords = position.coords;
-              this.currentCoords = position.coords;
-              this.mapCenter = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
+      };
 
-              this.mapMarker = {
-                position: this.mapCenter,
-                options: {
-                  animation: google.maps.Animation.BOUNCE,
-                  icon: './assets/icon/marker.png',
-                },
-              };
-            });
-          }
-        }
+      this.fetchBusinesses(
+        {
+          latitude: coords.lat,
+          longitude: coords.lng,
+          radius: this.radius,
+        },
+        event
       );
-    } catch (e) {
-      alert('WebView geo error');
-      console.error(e);
+    } else {
+      this.fetchBusinesses({}, event);
     }
   }
 
-  private clearWatch() {
-    if (this.watchId != null) {
-      Plugins.Geolocation.clearWatch({ id: this.watchId });
-    }
-  }
+  private fetchBusinesses(params?: any, event?: any) {
+    this.dataLoader.getExploreBusinesses(params).then(
+      () => {
+        this.initExploreBusiness();
 
-  private async checkGeo() {
-    const has: any = await Plugins.Permissions.query({
-      name: PermissionType.Geolocation,
-    });
-    console.log('Geo has: ', has);
-    if (has.state && (has.state === 'prompt' || has.state === 'denied')) {
-      this.requestGeoPermissions();
-    } else if (has.state && has.state === 'granted') {
-      this.getCurrentPosition();
-      this.watchPosition();
-    }
+        if (event && event.target) {
+          event.target.complete();
+        }
+      },
+      (error: any) => {
+        console.log('getExploreBusinesses: ', error.error);
+        if (event && event.target) {
+          event.target.complete();
+        }
+      }
+    );
   }
 
   private initExploreBusiness() {

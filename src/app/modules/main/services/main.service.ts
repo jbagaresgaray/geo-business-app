@@ -12,6 +12,7 @@ export class MainService extends BaseService {
   }
 
   getExploreBusinesses(params: any): Observable<any> {
+    console.log('getExploreBusinesses: ', params);
     return this.getParams('/business', { ...params });
   }
 }

@@ -10,7 +10,10 @@ import { ModalController, Platform } from '@ionic/angular';
 import { CallbackID, PermissionType, Plugins } from '@capacitor/core';
 const { Geolocation } = Plugins;
 
-import { STORE_USER_LOCATION } from './../../../../shared/constants/utils';
+import {
+  STORE_USER_LOCATION,
+  STORE_RADIUS_SEARCH,
+} from './../../../../shared/constants/utils';
 
 import { LocalStorageService } from './../../../../services/local-storage.service';
 import { DataLoaderService } from './../../../../services/data-loader.service';
@@ -18,6 +21,7 @@ import { MainState } from '../../stores/main.reducer';
 import { businessSelector } from './../../stores/main.selector';
 
 import { SearchLocationComponent } from './../../../../shared/components/search-location/search-location.component';
+import { ModalRadiusComponent } from './../../../../shared/components/modal-radius/modal-radius.component';
 
 @Component({
   selector: 'app-tab1',
@@ -45,6 +49,7 @@ export class Tab1Page {
     latitude: 0,
     longitude: 0,
   };
+  radius = 5;
   mapCenter: google.maps.LatLngLiteral;
   watchId: CallbackID;
 
@@ -69,9 +74,8 @@ export class Tab1Page {
   ionViewDidEnter() {
     this.onSearching = false;
     this.checkGeo();
-    this.initAddress();
 
-    this.fetchBusinesses();
+    this.initAddress();
   }
 
   ionViewWillLeave() {
@@ -82,25 +86,7 @@ export class Tab1Page {
     this.showBusinesses = false;
     this.showBusinessError = false;
 
-    this.dataLoader.getExploreBusinesses().then(
-      () => {
-        this.initExploreBusiness();
-
-        if (event && event.target) {
-          event.target.complete();
-        }
-      },
-      (error: any) => {
-        this.showBusinessError = true;
-        if (error) {
-          this.businessError = error.error;
-        }
-
-        if (event && event.target) {
-          event.target.complete();
-        }
-      }
-    );
+    this.initAddress(event);
   }
 
   onSearchInput(evt: any) {
@@ -120,6 +106,23 @@ export class Tab1Page {
     }
   }
 
+  async openFilter() {
+    const modal = await this.modalController.create({
+      component: ModalRadiusComponent,
+      cssClass: 'modal-topsmallscreen',
+    });
+    modal.onDidDismiss().then((resp) => {
+      if (resp && resp.data) {
+        const distance = resp.data.distance;
+        console.log('ModalRadiusComponent distance: ', distance);
+        this.radius = distance / 1000;
+        this.localStorageService.setItem(STORE_RADIUS_SEARCH, this.radius);
+        this.initAddress();
+      }
+    });
+    modal.present();
+  }
+
   async setLocationManually() {
     const modal = await this.modalController.create({
       component: SearchLocationComponent,
@@ -132,11 +135,15 @@ export class Tab1Page {
     return modal.present();
   }
 
-  private fetchBusinesses() {
-    this.dataLoader.getExploreBusinesses().then(
+  private fetchBusinesses(params?: any, event?: any) {
+    this.dataLoader.getExploreBusinesses(params).then(
       () => {
         this.showBusinessError = false;
         this.initExploreBusiness();
+
+        if (event && event.target) {
+          event.target.complete();
+        }
       },
       (error: any) => {
         console.log('getExploreBusinesses: ', error.error);
@@ -144,17 +151,33 @@ export class Tab1Page {
         if (error) {
           this.businessError = error.error;
         }
+
+        if (event && event.target) {
+          event.target.complete();
+        }
       }
     );
   }
 
-  private initAddress() {
+  private initAddress(event?: any) {
     const address = this.localStorageService.getItem(STORE_USER_LOCATION);
     if (address) {
       this.hasAddress = true;
       this.currentAddress = address;
+
+      const coords = address.location;
+      console.log('coords: ', coords);
+      this.fetchBusinesses(
+        {
+          latitude: coords.lat,
+          longitude: coords.lng,
+          radius: this.radius,
+        },
+        event
+      );
     } else {
       this.hasAddress = false;
+      this.fetchBusinesses({}, event);
     }
   }
 
@@ -216,6 +239,8 @@ export class Tab1Page {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               };
+
+              this.initAddress();
             });
           }
         }

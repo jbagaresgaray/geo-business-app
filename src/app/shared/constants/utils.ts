@@ -3,6 +3,7 @@ export const STORE_USER_PROFILE = 'geo_business_user_profile';
 export const IS_USER_PROFILE_LOADED = 'geo_business_isProfileInfoLoaded';
 export const STORE_USER_LOCATION = 'geo_business_user_location';
 export const STORE_ACTIVE_TAB_URL = 'geo_business_active_tab_url';
+export const STORE_RADIUS_SEARCH = 'geo_business_radius';
 
 export interface AppDeviceInfo {
   platform?: string;

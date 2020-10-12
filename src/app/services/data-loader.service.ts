@@ -16,7 +16,7 @@ export class DataLoaderService {
 
   getExploreBusinesses(params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.mainService.getExploreBusinesses({}).subscribe(
+      this.mainService.getExploreBusinesses(params).subscribe(
         (response: any) => {
           if (response) {
             const business = response.result;

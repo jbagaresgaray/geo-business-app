@@ -11,6 +11,7 @@ import { InfoErrorCardComponent } from './info-error-card/info-error-card.compon
 import { MapComponentComponent } from './map-component/map-component.component';
 import { SearchLocationComponent } from './search-location/search-location.component';
 import { ModalRadiusComponent } from './modal-radius/modal-radius.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ModalRadiusComponent } from './modal-radius/modal-radius.component';
     IonicModule,
     AvatarModule,
     GoogleMapsModule,
+    FormsModule,
     PipesModule,
   ],
   exports: [
