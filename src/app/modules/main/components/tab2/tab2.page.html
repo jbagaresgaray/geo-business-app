@@ -1,17 +1,12 @@
 <ion-content [fullscreen]="true">
-  <google-map
-    [options]="mapOptions"
-    [center]="mapCenter"
-    [height]="'100%'"
-    [width]="'100%'"
-  >
-    <map-circle
-      [center]="mapCenter"
-      [radius]="mapRadius"
-      [options]="mapCircleOptions"
-    ></map-circle>
+  <google-map [options]="mapOptions" [center]="mapCenter" [height]="'100%'" [width]="'100%'">
+    <!-- <map-circle [center]="mapCenter" [radius]="mapRadius" [options]="mapCircleOptions"></map-circle> -->
     <ng-container *ngIf="mapMarker">
       <map-marker [position]="mapMarker.position" [options]="mapMarker.options">
+      </map-marker>
+
+      <map-marker *ngFor="let marker of filteredMenusArr" [position]="marker.location" [options]="markerOptions"
+        (mapClick)="openInfoWindow(marker)">
       </map-marker>
     </ng-container>
   </google-map>

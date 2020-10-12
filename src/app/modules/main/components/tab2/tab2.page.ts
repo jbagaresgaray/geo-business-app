@@ -7,6 +7,14 @@ import {
 } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { CallbackID, Plugins, PermissionType } from '@capacitor/core';
+import { select, Store } from '@ngrx/store';
+import { MainState } from '../../stores/main.reducer';
+import { businessSelector } from '../../stores/main.selector';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import cloneDeep from 'lodash-es/cloneDeep';
+import each from 'lodash-es/each';
+import { MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-tab2',
@@ -15,6 +23,9 @@ import { CallbackID, Plugins, PermissionType } from '@capacitor/core';
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page {
+  menusArr: any[] = [];
+  filteredMenusArr: any[] = [];
+
   watchCoords = {
     latitude: 0,
     longitude: 0,
@@ -49,22 +60,38 @@ export class Tab2Page {
   mapCenter: google.maps.LatLngLiteral;
   mapMarker: any;
   mapRadius = 500;
+  markerOptions: google.maps.MarkerOptions = {
+    animation: google.maps.Animation.DROP,
+    icon: './assets/icon/store.png',
+    draggable: false,
+  };
+  businessMarkers: google.maps.LatLngLiteral[] = [];
 
   watchId: CallbackID;
 
   @ViewChild('map')
   public mapElement: ElementRef;
 
-  constructor(private zone: NgZone, private platform: Platform) {}
+  unsubscribe$ = new Subject<any>();
+
+  constructor(
+    private zone: NgZone,
+    private platform: Platform,
+    private store: Store<MainState>
+  ) {}
 
   ionViewDidEnter() {
     this.platform.ready().then(() => {
       this.checkGeo();
+      this.initExploreBusiness();
     });
   }
 
   ionViewWillLeave() {
     this.clearWatch();
+
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   async getCurrentPosition() {
@@ -86,10 +113,22 @@ export class Tab2Page {
           options: {
             animation: google.maps.Animation.BOUNCE,
             icon: './assets/icon/marker.png',
+            draggable: false,
           },
         };
       });
     }
+  }
+
+  openInfoWindow(marker: MapMarker) {
+    console.log('openInfoWindow: ', marker);
+  }
+
+  async requestGeoPermissions() {
+    setTimeout(() => {
+      this.getCurrentPosition();
+      this.watchPosition();
+    }, 300);
   }
 
   private watchPosition() {
@@ -132,13 +171,6 @@ export class Tab2Page {
     }
   }
 
-  async requestGeoPermissions() {
-    setTimeout(() => {
-      this.getCurrentPosition();
-      this.watchPosition();
-    }, 300);
-  }
-
   private async checkGeo() {
     const has: any = await Plugins.Permissions.query({
       name: PermissionType.Geolocation,
@@ -150,5 +182,27 @@ export class Tab2Page {
       this.getCurrentPosition();
       this.watchPosition();
     }
+  }
+
+  private initExploreBusiness() {
+    this.store
+      .pipe(
+        select(businessSelector),
+        takeUntil(this.unsubscribe$),
+        map((res) => res.businesses)
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.menusArr = [];
+          this.filteredMenusArr = [];
+          const businesses = cloneDeep(response);
+          each(businesses, (business: any) => {
+            this.businessMarkers.push(business.location);
+            this.menusArr.push(business);
+          });
+          this.filteredMenusArr = cloneDeep(this.menusArr);
+          console.log('filteredMenusArr: ', this.filteredMenusArr);
+        }
+      });
   }
 }

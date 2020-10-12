@@ -10,6 +10,7 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
 import { InfoErrorCardComponent } from './info-error-card/info-error-card.component';
 import { MapComponentComponent } from './map-component/map-component.component';
 import { SearchLocationComponent } from './search-location/search-location.component';
+import { ModalRadiusComponent } from './modal-radius/modal-radius.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +18,21 @@ import { SearchLocationComponent } from './search-location/search-location.compo
     InfoErrorCardComponent,
     SearchLocationComponent,
     MapComponentComponent,
+    ModalRadiusComponent,
   ],
-  imports: [CommonModule, IonicModule, AvatarModule, GoogleMapsModule, PipesModule],
+  imports: [
+    CommonModule,
+    IonicModule,
+    AvatarModule,
+    GoogleMapsModule,
+    PipesModule,
+  ],
   exports: [
     MenuItemComponent,
     InfoErrorCardComponent,
     SearchLocationComponent,
     MapComponentComponent,
+    ModalRadiusComponent,
   ],
 })
 export class ComponentsModule {}

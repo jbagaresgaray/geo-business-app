@@ -14,7 +14,7 @@ export class DataLoaderService {
     private store: Store<MainState>
   ) {}
 
-  getExploreBusinesses(): Promise<any> {
+  getExploreBusinesses(params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.mainService.getExploreBusinesses({}).subscribe(
         (response: any) => {
